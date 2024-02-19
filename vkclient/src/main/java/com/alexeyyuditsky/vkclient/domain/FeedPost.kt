@@ -1,12 +1,11 @@
 package com.alexeyyuditsky.vkclient.domain
 
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.navigation.NavType
 import com.alexeyyuditsky.vkclient.R
-import com.alexeyyuditsky.vkclient.navigation.Screen
+import com.alexeyyuditsky.vkclient.core.getCheckedParcelable
 import com.google.gson.Gson
 import kotlinx.parcelize.Parcelize
 
@@ -32,24 +31,14 @@ data class FeedPost(
 }
 
 val NavType.Companion.FeedPostType: NavType<FeedPost>
-    get() {
-        return object : NavType<FeedPost>(false) {
+    get() = object : NavType<FeedPost>(false) {
 
-            override fun get(bundle: Bundle, key: String): FeedPost? {
-                return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    bundle.getParcelable(key, FeedPost::class.java)
-                } else {
-                    @Suppress("DEPRECATION")
-                    bundle.getParcelable(Screen.KEY_FEED_POST)
-                }
-            }
+        override fun get(bundle: Bundle, key: String): FeedPost =
+            bundle.getCheckedParcelable(key, FeedPost::class.java)
 
-            override fun parseValue(value: String): FeedPost {
-                return Gson().fromJson(value, FeedPost::class.java)
-            }
+        override fun parseValue(value: String): FeedPost =
+            Gson().fromJson(value, FeedPost::class.java)
 
-            override fun put(bundle: Bundle, key: String, value: FeedPost) {
-                bundle.putParcelable(key, value)
-            }
-        }
+        override fun put(bundle: Bundle, key: String, value: FeedPost) =
+            bundle.putParcelable(key, value)
     }
