@@ -2,6 +2,24 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="MainActivity">
+        <State />
+      </entry>
+      <entry key="MainActivity (1)">
+        <State />
+      </entry>
+      <entry key="activityResultApiNew">
+        <State />
+      </entry>
+      <entry key="activityResultApiOld">
+        <State />
+      </entry>
+      <entry key="instagram">
+        <State />
+      </entry>
+      <entry key="test">
+        <State />
+      </entry>
       <entry key="vkclient">
         <State />
       </entry>

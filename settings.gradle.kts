@@ -14,6 +14,8 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "compose-new"
-include(":app")
+include(":instagram")
 include(":vkclient")
-include(":testcompose")
+include(":test")
+include(":activityResultApiOld")
+include(":activityResultApiNew")
