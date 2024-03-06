@@ -8,10 +8,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.alexeyyuditsky.vkclient.core.log
 import com.alexeyyuditsky.vkclient.ui.ActivityResultTest
+import com.alexeyyuditsky.vkclient.ui.AuthState
+import com.alexeyyuditsky.vkclient.ui.LoginScreen
 import com.alexeyyuditsky.vkclient.ui.MainScreen
 import com.alexeyyuditsky.vkclient.ui.theme.VkClientTheme
 import com.vk.api.sdk.VK
@@ -24,34 +28,19 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             VkClientTheme {
-                val someValue = remember { mutableStateOf(true) }
+                val viewModel = viewModel<MainViewModel>()
+                val authState = viewModel.authState.observeAsState(AuthState.Initial)
 
-                log("Recomposition ${someValue.value}")
                 val launcher = rememberLauncherForActivityResult(
                     contract = VK.getVKAuthActivityResultContract()
                 ) {
-                    when (it) {
-                        is VKAuthenticationResult.Success -> {
-                            log("Success")
-                            // User passed authorization
-                        }
+                    viewModel.performAuthResult(it)
+                }
 
-                        is VKAuthenticationResult.Failed -> {
-                            log("Failed")
-                            // User didn't pass authorization
-                        }
-                    }
-                }
-                LaunchedEffect(key1 = Unit) {
-                    log("LaunchedEffect")
-                }
-                SideEffect {
-                    log("SideEffect")
-                    //launcher.launch(listOf(VKScope.WALL))
-                }
-                //MainScreen()
-                Button(onClick = { someValue.value = !someValue.value }) {
-                    Text(text = "Change state")
+                when (authState.value) {
+                    is AuthState.Authorized -> MainScreen()
+                    is AuthState.NotAuthorized -> LoginScreen { launcher.launch(listOf(VKScope.WALL)) }
+                    is AuthState.Initial -> {}
                 }
             }
         }
