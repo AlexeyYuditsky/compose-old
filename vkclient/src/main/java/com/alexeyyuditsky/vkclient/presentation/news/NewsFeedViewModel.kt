@@ -1,4 +1,4 @@
-package com.alexeyyuditsky.vkclient.ui
+package com.alexeyyuditsky.vkclient.presentation.news
 
 import android.os.Build
 import androidx.lifecycle.LiveData
@@ -7,18 +7,18 @@ import androidx.lifecycle.ViewModel
 import com.alexeyyuditsky.vkclient.domain.FeedPost
 import com.alexeyyuditsky.vkclient.domain.StatisticItem
 
-class FeedPostsViewModel : ViewModel() {
+class NewsFeedViewModel : ViewModel() {
 
     private val postList = List(10) { FeedPost(id = it, contentText = "con/tent $it") }
 
-    private val initialState = FeedPostScreenState.Posts(postList)
+    private val initialState = NewsFeedScreenState.Posts(postList)
 
-    private val _screenState = MutableLiveData<FeedPostScreenState>(initialState)
-    val screenState: LiveData<FeedPostScreenState> get() = _screenState
+    private val _screenState = MutableLiveData<NewsFeedScreenState>(initialState)
+    val screenState: LiveData<NewsFeedScreenState> get() = _screenState
 
     fun updateCount(feedPost: FeedPost, statisticItem: StatisticItem) {
         val state = screenState.value
-        if (state !is FeedPostScreenState.Posts) return
+        if (state !is NewsFeedScreenState.Posts) return
 
         val oldFeedPostList = state.posts.toMutableList()
 
@@ -50,14 +50,14 @@ class FeedPostsViewModel : ViewModel() {
             }
         }
 
-        _screenState.value = FeedPostScreenState.Posts(posts = newPosts)
+        _screenState.value = NewsFeedScreenState.Posts(posts = newPosts)
     }
 
     fun remove(feedPost: FeedPost) {
         val state = screenState.value
-        if (state !is FeedPostScreenState.Posts) return
+        if (state !is NewsFeedScreenState.Posts) return
 
         val newPosts = state.posts.filter { it != feedPost }
-        _screenState.value = FeedPostScreenState.Posts(newPosts)
+        _screenState.value = NewsFeedScreenState.Posts(newPosts)
     }
 }

@@ -1,4 +1,4 @@
-package com.alexeyyuditsky.vkclient.ui
+package com.alexeyyuditsky.vkclient.samples
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult

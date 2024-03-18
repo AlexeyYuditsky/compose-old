@@ -12,7 +12,7 @@
         android:theme="@style/Theme.Composenew">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Composenew">
             <intent-filter>

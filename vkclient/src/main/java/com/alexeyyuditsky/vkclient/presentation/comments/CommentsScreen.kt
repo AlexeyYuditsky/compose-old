@@ -1,4 +1,4 @@
-package com.alexeyyuditsky.vkclient.ui
+package com.alexeyyuditsky.vkclient.presentation.comments
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -41,7 +41,7 @@ fun CommentsScreen(
     feedPost: FeedPost,
     onBackPressed: () -> Unit
 ) {
-    val viewModel = viewModel<CommentsViewModel>(factory = ViewModelFactory(feedPost))
+    val viewModel = viewModel<CommentsViewModel>(factory = CommentsViewModelFactory(feedPost))
 
     val screenState = viewModel.screenState.observeAsState(CommentsScreenState.Initial)
     val currentState = screenState.value

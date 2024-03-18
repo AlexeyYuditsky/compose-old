@@ -1,4 +1,4 @@
-package com.alexeyyuditsky.vkclient.ui
+package com.alexeyyuditsky.vkclient.presentation.main
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons

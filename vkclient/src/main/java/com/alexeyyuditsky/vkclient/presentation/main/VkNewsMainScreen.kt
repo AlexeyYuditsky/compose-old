@@ -1,4 +1,4 @@
-package com.alexeyyuditsky.vkclient.ui
+package com.alexeyyuditsky.vkclient.presentation.main
 
 import androidx.compose.foundation.clickable
 import androidx.compose.material3.Icon
@@ -21,6 +21,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.alexeyyuditsky.vkclient.navigation.AppNavGraph
 import com.alexeyyuditsky.vkclient.navigation.NavigationState
 import com.alexeyyuditsky.vkclient.navigation.rememberNavigationState
+import com.alexeyyuditsky.vkclient.presentation.comments.CommentsScreen
+import com.alexeyyuditsky.vkclient.presentation.news.NewsFeedScreen
 
 @Composable
 fun MainScreen() {
@@ -59,7 +61,7 @@ fun MainScreen() {
         AppNavGraph(
             navHostController = navigationState.navHostController,
             newsFeedScreenContent = {
-                HomeScreen(
+                NewsFeedScreen(
                     paddingValues = paddingValues,
                     onCommentClickListener = { feedPost ->
                         navigationState.navigateToComments(feedPost)

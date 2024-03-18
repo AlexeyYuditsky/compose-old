@@ -1,4 +1,4 @@
-package com.alexeyyuditsky.vkclient.ui
+package com.alexeyyuditsky.vkclient.presentation.news
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -25,7 +25,7 @@ fun FeedPostsScreen(
     feedPosts: List<FeedPost>,
     onCommentsClickListener: (FeedPost) -> Unit
 ) {
-    val viewModel = viewModel<FeedPostsViewModel>()
+    val viewModel = viewModel<NewsFeedViewModel>()
 
     LazyColumn(
         modifier = Modifier.padding(paddingValues),

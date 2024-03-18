@@ -1,10 +1,10 @@
-package com.alexeyyuditsky.vkclient.ui
+package com.alexeyyuditsky.vkclient.presentation.comments
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.alexeyyuditsky.vkclient.domain.FeedPost
 
-class ViewModelFactory(
+class CommentsViewModelFactory(
     private val feedPost: FeedPost
 ) : ViewModelProvider.Factory {
 

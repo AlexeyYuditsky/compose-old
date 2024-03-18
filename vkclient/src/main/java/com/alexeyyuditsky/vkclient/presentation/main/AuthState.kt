@@ -1,4 +1,4 @@
-package com.alexeyyuditsky.vkclient.ui
+package com.alexeyyuditsky.vkclient.presentation.main
 
 sealed interface AuthState {
     object Initial : AuthState

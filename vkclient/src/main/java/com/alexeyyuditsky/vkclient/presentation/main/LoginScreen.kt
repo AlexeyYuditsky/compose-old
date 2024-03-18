@@ -1,4 +1,4 @@
-package com.alexeyyuditsky.vkclient.ui
+package com.alexeyyuditsky.vkclient.presentation.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

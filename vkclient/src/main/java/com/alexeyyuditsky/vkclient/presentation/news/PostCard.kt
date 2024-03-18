@@ -1,4 +1,4 @@
-package com.alexeyyuditsky.vkclient.ui
+package com.alexeyyuditsky.vkclient.presentation.news
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

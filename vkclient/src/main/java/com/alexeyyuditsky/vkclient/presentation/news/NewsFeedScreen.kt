@@ -1,4 +1,4 @@
-package com.alexeyyuditsky.vkclient.ui
+package com.alexeyyuditsky.vkclient.presentation.news
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
@@ -8,18 +8,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.alexeyyuditsky.vkclient.domain.FeedPost
 
 @Composable
-fun HomeScreen(
+fun NewsFeedScreen(
     paddingValues: PaddingValues,
     onCommentClickListener: (FeedPost) -> Unit
 ) {
-    val viewModel = viewModel<FeedPostsViewModel>()
+    val viewModel = viewModel<NewsFeedViewModel>()
 
-    val screenState: State<FeedPostScreenState> =
-        viewModel.screenState.observeAsState(FeedPostScreenState.Initial)
+    val screenState: State<NewsFeedScreenState> =
+        viewModel.screenState.observeAsState(NewsFeedScreenState.Initial)
 
     when (val state = screenState.value) {
-        is FeedPostScreenState.Initial -> {}
-        is FeedPostScreenState.Posts -> FeedPostsScreen(
+        is NewsFeedScreenState.Initial -> {}
+        is NewsFeedScreenState.Posts -> FeedPostsScreen(
             paddingValues = paddingValues,
             feedPosts = state.posts,
             onCommentsClickListener = onCommentClickListener
