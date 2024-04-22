@@ -6,10 +6,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SwipeToDismiss
-import androidx.compose.material3.rememberDismissState
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,18 +35,16 @@ fun FeedPostsScreen(
             items = feedPosts,
             key = { it.id }
         ) { feedPost ->
-            val dismissState = rememberDismissState()
+            val dismissState = rememberSwipeToDismissBoxState()
 
-            if (dismissState.isDismissed(DismissDirection.EndToStart)) {
+            /*if (dismissState.isDismissed(DismissDirection.EndToStart)) {
                 viewModel.remove(feedPost)
-            }
+            }*/
 
-            SwipeToDismiss(
+            SwipeToDismissBox(
                 modifier = Modifier.animateItemPlacement(),
                 state = dismissState,
-                directions = setOf(DismissDirection.EndToStart),
-                background = {},
-                dismissContent = {
+                content = {
                     PostCard(
                         feedPost = feedPost,
                         onViewsClickListener = { statisticItem ->
@@ -63,7 +60,10 @@ fun FeedPostsScreen(
                             viewModel.updateCount(feedPost, statisticItem)
                         }
                     )
-                }
+                },
+                backgroundContent = {},
+                enableDismissFromEndToStart = true,
+                enableDismissFromStartToEnd = false
             )
         }
     }
