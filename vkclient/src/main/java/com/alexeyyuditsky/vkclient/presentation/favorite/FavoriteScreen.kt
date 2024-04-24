@@ -29,8 +29,9 @@ fun FavoriteScreen(
     }
 }
 
+/*
 @Composable
 @Preview
 private fun FavoriteScreenPreview() = VkClientTheme {
     FavoriteScreen(viewModel = NewsFeedViewModel(), paddingValues = PaddingValues(0.dp))
-}
+}*/

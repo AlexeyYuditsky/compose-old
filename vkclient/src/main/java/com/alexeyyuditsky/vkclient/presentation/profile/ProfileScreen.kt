@@ -38,8 +38,9 @@ fun ProfileScreen(
     }
 }
 
+/*
 @Composable
 @Preview
 private fun ProfileScreenPreview() = VkClientTheme {
     ProfileScreen(viewModel = NewsFeedViewModel(), paddingValues = PaddingValues(0.dp))
-}
+}*/

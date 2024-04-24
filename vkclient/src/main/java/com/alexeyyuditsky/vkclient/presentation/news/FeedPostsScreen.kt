@@ -69,6 +69,7 @@ fun FeedPostsScreen(
     }
 }
 
+/*
 @Composable
 @Preview
 private fun FeedPostsPreview() = VkClientTheme {
@@ -76,4 +77,4 @@ private fun FeedPostsPreview() = VkClientTheme {
         paddingValues = PaddingValues(),
         feedPosts = listOf(FeedPost(0), FeedPost(1), FeedPost(2), FeedPost(3), FeedPost(4))
     ) {}
-}
+}*/

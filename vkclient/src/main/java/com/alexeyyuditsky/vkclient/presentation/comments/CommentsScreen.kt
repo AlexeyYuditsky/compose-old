@@ -121,6 +121,7 @@ private fun CommentItem(
     }
 }
 
+/*
 @Composable
 @Preview
 private fun PreviewCommentItem() = VkClientTheme {
@@ -128,4 +129,4 @@ private fun PreviewCommentItem() = VkClientTheme {
         feedPost = FeedPost(),
         onBackPressed = {}
     )
-}
+}*/
