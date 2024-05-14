@@ -18,6 +18,7 @@ class NewsFeedMapper {
         posts.forEach { post ->
             val group = groups.find { group -> group.id == post.communityId.absoluteValue }
                 ?: return@forEach
+
             val feedPost = FeedPost(
                 id = post.id,
                 communityName = group.name,

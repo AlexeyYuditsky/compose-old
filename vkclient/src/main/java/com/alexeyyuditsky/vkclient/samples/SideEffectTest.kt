@@ -10,19 +10,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.alexeyyuditsky.vkclient.core.log
+import com.alexeyyuditsky.vkclient.core.logger
 
 @Composable
 fun SideEffectTest(number: MyNumber) {
     Handler(Looper.getMainLooper()).post{
         number.a = 2
-        log("change")
+        logger("change")
     }
 
     Column {
         LazyColumn {
             items(500) {
-                log("item")
+                logger("item")
                 Text(text = number.a.toString())
             }
         }
@@ -31,7 +31,7 @@ fun SideEffectTest(number: MyNumber) {
 
         LazyColumn {
             items(500) {
-                log("item")
+                logger("item")
                 Text(text = number.a.toString())
             }
         }

@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.alexeyyuditsky.vkclient.core.log
+import com.alexeyyuditsky.vkclient.core.logger
 import com.vk.api.sdk.VKPreferencesKeyValueStorage
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthenticationResult
@@ -19,7 +19,7 @@ class MainViewModel(
     init {
         val storage = VKPreferencesKeyValueStorage(application)
         val token = VKAccessToken.restore(storage)
-        log(token?.accessToken)
+        logger(token?.accessToken)
         val loggedIn = token != null && token.isValid
         _authState.value = if (loggedIn) AuthState.Authorized else AuthState.NotAuthorized
     }
