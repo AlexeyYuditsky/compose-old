@@ -8,14 +8,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.alexeyyuditsky.vkclient.domain.FeedPost
-import com.alexeyyuditsky.vkclient.ui.theme.VkClientTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -35,11 +34,16 @@ fun FeedPostsScreen(
             items = feedPosts,
             key = { it.id }
         ) { feedPost ->
-            val dismissState = rememberSwipeToDismissBoxState()
-
-            /*if (dismissState.isDismissed(DismissDirection.EndToStart)) {
-                viewModel.remove(feedPost)
-            }*/
+            val dismissState = rememberSwipeToDismissBoxState(
+                confirmValueChange = { swipeValue ->
+                    if (swipeValue == SwipeToDismissBoxValue.EndToStart) {
+                        viewModel.remove(feedPost)
+                        true
+                    } else {
+                        false
+                    }
+                }
+            )
 
             SwipeToDismissBox(
                 modifier = Modifier.animateItemPlacement(),
