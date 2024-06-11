@@ -36,11 +36,15 @@ fun FeedPostsScreen(
         ) { feedPost ->
             val dismissState = rememberSwipeToDismissBoxState(
                 confirmValueChange = { swipeValue ->
-                    if (swipeValue == SwipeToDismissBoxValue.EndToStart) {
-                        viewModel.remove(feedPost)
-                        true
-                    } else {
-                        false
+                    when (swipeValue) {
+                        SwipeToDismissBoxValue.EndToStart -> {
+                            viewModel.remove(feedPost)
+                            true
+                        }
+
+                        else -> {
+                            false
+                        }
                     }
                 }
             )
@@ -57,12 +61,13 @@ fun FeedPostsScreen(
                         onShareClickListener = { statisticItem ->
                             viewModel.updateCount(feedPost, statisticItem)
                         },
-                        onCommentClickListener = {
+                        onCommentClickListener = { statisticItem ->
                             onCommentsClickListener(feedPost)
                         },
-                        onLikeClickListener = { statisticItem ->
-                            viewModel.updateCount(feedPost, statisticItem)
-                        }
+                        onLikeClickListener = { _ ->
+                            viewModel.changeLikeStatus(feedPost)
+                        },
+                        isFavorite = feedPost.isLiked
                     )
                 },
                 backgroundContent = {},

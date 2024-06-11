@@ -2,6 +2,6 @@ package com.alexeyyuditsky.vkclient.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class ViewsDto(
-    @SerializedName("count") val count: Long
+data class LikesCountResponseDto(
+    @SerializedName("response") val likes: LikesCountDto
 )

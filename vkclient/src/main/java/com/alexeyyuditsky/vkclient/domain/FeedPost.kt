@@ -4,19 +4,20 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.navigation.NavType
-import com.alexeyyuditsky.vkclient.R
 import com.alexeyyuditsky.vkclient.core.getCheckedParcelable
 import com.google.gson.Gson
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class FeedPost(
-    val id: String,
+    val id: Long,
+    val communityId:Long,
     val communityName: String,
     val publicationDate: String,
     val communityImageUrl: String,
     val contentText: String,
     val contentImageUrl: String?,
+    val isLiked: Boolean,
     val statistics: List<StatisticItem>
 ) : Parcelable {
     fun encode(): String {
