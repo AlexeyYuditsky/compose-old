@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.alexeyyuditsky.vkclient.data.repository.NewsFeedRepository
 import com.alexeyyuditsky.vkclient.domain.FeedPost
 import com.alexeyyuditsky.vkclient.domain.StatisticItem
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class NewsFeedViewModel(application: Application) : AndroidViewModel(application) {
@@ -30,6 +31,14 @@ class NewsFeedViewModel(application: Application) : AndroidViewModel(application
     private fun loadRecommendations() = viewModelScope.launch {
         val feedPostList = repository.loadRecommendations()
         _screenState.value = NewsFeedScreenState.Posts(feedPostList)
+    }
+
+    fun loadNextRecommendations() {
+        _screenState.value = NewsFeedScreenState.Posts(
+            posts = repository.feedPosts,
+            nextDataIsLoading = true
+        )
+        loadRecommendations()
     }
 
     fun updateCount(feedPost: FeedPost, statisticItem: StatisticItem) {

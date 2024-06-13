@@ -19,10 +19,13 @@ fun NewsFeedScreen(
 
     when (val state = screenState.value) {
         is NewsFeedScreenState.Initial -> {}
-        is NewsFeedScreenState.Posts -> FeedPostsScreen(
-            paddingValues = paddingValues,
-            feedPosts = state.posts,
-            onCommentsClickListener = onCommentClickListener
-        )
+        is NewsFeedScreenState.Posts -> {
+            FeedPostsScreen(
+                paddingValues = paddingValues,
+                feedPosts = state.posts,
+                nextDataIsLoading = state.nextDataIsLoading,
+                onCommentsClickListener = onCommentClickListener
+            )
+        }
     }
 }

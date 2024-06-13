@@ -1,6 +1,7 @@
 package com.alexeyyuditsky.vkclient.data.repository
 
 import android.app.Application
+import com.alexeyyuditsky.vkclient.core.logger
 import com.alexeyyuditsky.vkclient.data.mapper.NewsFeedMapper
 import com.alexeyyuditsky.vkclient.data.network.ApiFactory
 import com.alexeyyuditsky.vkclient.domain.FeedPost
@@ -17,14 +18,32 @@ class NewsFeedRepository(
     private val apiService = ApiFactory.apiService
     private val mapper = NewsFeedMapper()
 
-    private val feedPostList = mutableListOf<FeedPost>()
+    private val _feedPosts = mutableListOf<FeedPost>()
+    val feedPosts get() = _feedPosts.toList()
+
+    private var nextFrom: String? = null
 
     suspend fun loadRecommendations(): List<FeedPost> {
-        val response = apiService.loadRecommendations(token = getAccessToken())
+        val startFrom = nextFrom
+        // the situation when on the server end news
+        if (startFrom == null && feedPosts.isNotEmpty()) return feedPosts
+
+        val response = if (startFrom == null) {
+            apiService.loadRecommendations(token = getAccessToken())
+        } else {
+            apiService.loadRecommendations(
+                token = getAccessToken(),
+                nextFrom = startFrom
+            )
+        }
+        nextFrom = response.newsFeedContent.nextFrom
         val feedPostList = mapper.mapResponseToPosts(response)
-        this.feedPostList.clear()
-        this.feedPostList.addAll(feedPostList)
-        return this.feedPostList
+        _feedPosts.addAll(feedPostList)
+
+        logger(feedPostList.map { it.communityName })
+        logger(startFrom)
+
+        return feedPosts
     }
 
     suspend fun changeLikeStatus(feedPost: FeedPost): List<FeedPost> {
@@ -52,10 +71,9 @@ class NewsFeedRepository(
         }
 
         val newPost = feedPost.copy(statistics = newStatistics, isLiked = !feedPost.isLiked)
-        val feedPostIndex = this.feedPostList.indexOf(feedPost)
-        this.feedPostList[feedPostIndex] = newPost
-
-        return this.feedPostList
+        val feedPostIndex = feedPosts.indexOf(feedPost)
+        _feedPosts[feedPostIndex] = newPost
+        return feedPosts
     }
 
     private fun getAccessToken(): String {
