@@ -76,6 +76,16 @@ class NewsFeedRepository(
         return feedPosts
     }
 
+    suspend fun ignorePost(feedPost: FeedPost): List<FeedPost> {
+        apiService.ignorePost(
+            token = getAccessToken(),
+            ownerId = feedPost.communityId,
+            postId = feedPost.id
+        )
+        _feedPosts.remove(feedPost)
+        return feedPosts
+    }
+
     private fun getAccessToken(): String {
         return token?.accessToken ?: throw IllegalStateException("Token is null")
     }

@@ -46,7 +46,7 @@ fun FeedPostsScreen(
                 confirmValueChange = { swipeValue ->
                     when (swipeValue) {
                         SwipeToDismissBoxValue.EndToStart -> {
-                            viewModel.remove(feedPost)
+                            viewModel.ignorePost(feedPost)
                             true
                         }
 
@@ -63,12 +63,6 @@ fun FeedPostsScreen(
                 content = {
                     PostCard(
                         feedPost = feedPost,
-                        onViewsClickListener = { statisticItem ->
-                            viewModel.updateCount(feedPost, statisticItem)
-                        },
-                        onShareClickListener = { statisticItem ->
-                            viewModel.updateCount(feedPost, statisticItem)
-                        },
                         onCommentClickListener = { statisticItem ->
                             onCommentsClickListener(feedPost)
                         },
