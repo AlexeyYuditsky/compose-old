@@ -1,21 +1,17 @@
 package com.alexeyyuditsky.vkclient.data.repository
 
 import android.app.Application
-import com.alexeyyuditsky.vkclient.core.logger
 import com.alexeyyuditsky.vkclient.data.mapper.NewsFeedMapper
 import com.alexeyyuditsky.vkclient.data.network.ApiFactory
+import com.alexeyyuditsky.vkclient.data.network.ApiService
 import com.alexeyyuditsky.vkclient.domain.FeedPost
 import com.alexeyyuditsky.vkclient.domain.StatisticType
-import com.vk.api.sdk.VKPreferencesKeyValueStorage
-import com.vk.api.sdk.auth.VKAccessToken
 
 class NewsFeedRepository(
-    application: Application
-) {
-    private val storage = VKPreferencesKeyValueStorage(application)
-    private val token = VKAccessToken.restore(storage)
+    application: Application,
+    private val apiService: ApiService = ApiFactory.apiService
+) : BaseRepository(application) {
 
-    private val apiService = ApiFactory.apiService
     private val mapper = NewsFeedMapper()
 
     private val _feedPosts = mutableListOf<FeedPost>()
@@ -39,9 +35,6 @@ class NewsFeedRepository(
         nextFrom = response.newsFeedContent.nextFrom
         val feedPostList = mapper.mapResponseToPosts(response)
         _feedPosts.addAll(feedPostList)
-
-        logger(feedPostList.map { it.communityName })
-        logger(startFrom)
 
         return feedPosts
     }
@@ -84,9 +77,5 @@ class NewsFeedRepository(
         )
         _feedPosts.remove(feedPost)
         return feedPosts
-    }
-
-    private fun getAccessToken(): String {
-        return token?.accessToken ?: throw IllegalStateException("Token is null")
     }
 }

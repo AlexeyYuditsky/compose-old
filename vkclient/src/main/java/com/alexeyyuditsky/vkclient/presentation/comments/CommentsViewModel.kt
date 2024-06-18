@@ -1,28 +1,34 @@
 package com.alexeyyuditsky.vkclient.presentation.comments
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.alexeyyuditsky.vkclient.data.repository.CommentsRepository
 import com.alexeyyuditsky.vkclient.domain.FeedPost
-import com.alexeyyuditsky.vkclient.domain.PostComment
+import kotlinx.coroutines.launch
 
 class CommentsViewModel(
+    application: Application,
     feedPost: FeedPost
-) : ViewModel() {
+) : AndroidViewModel(application) {
 
     private val _screenState = MutableLiveData<CommentsScreenState>(CommentsScreenState.Initial)
     val screenState: LiveData<CommentsScreenState> get() = _screenState
+
+    private val repository = CommentsRepository(application)
 
     init {
         loadComments(feedPost)
     }
 
-    private fun loadComments(feedPost: FeedPost) {
-        val comments = List(10) { PostComment(id = it) }
+    private fun loadComments(feedPost: FeedPost) = viewModelScope.launch {
+        val postCommentList = repository.getComments(feedPost)
 
         _screenState.value = CommentsScreenState.Comments(
             feedPost = feedPost,
-            comments = comments
+            comments = postCommentList
         )
     }
 }

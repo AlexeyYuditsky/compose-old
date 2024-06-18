@@ -1,8 +1,10 @@
 package com.alexeyyuditsky.vkclient.data.mapper
 
+import com.alexeyyuditsky.vkclient.data.model.CommentsResponseDto
 import com.alexeyyuditsky.vkclient.data.model.NewsFeedResponseDto
 import com.alexeyyuditsky.vkclient.data.model.PostDto
 import com.alexeyyuditsky.vkclient.domain.FeedPost
+import com.alexeyyuditsky.vkclient.domain.PostComment
 import com.alexeyyuditsky.vkclient.domain.StatisticItem
 import com.alexeyyuditsky.vkclient.domain.StatisticType
 import java.text.SimpleDateFormat
@@ -40,6 +42,30 @@ class NewsFeedMapper {
             )
 
             result.add(feedPost)
+        }
+
+        return result
+    }
+
+    fun mapResponseToComments(commentsResponseDto: CommentsResponseDto): List<PostComment> {
+        val comments = commentsResponseDto.commentsContent.comments
+        val profiles = commentsResponseDto.commentsContent.profiles
+
+        val result = mutableListOf<PostComment>()
+
+        comments.forEach { comment ->
+            val profile = profiles.firstOrNull { profile -> profile.id == comment.authorId }
+                ?: return@forEach
+
+            val post = PostComment(
+                id = comment.id,
+                authorName = "${profile.firstName} ${profile.lastName}",
+                authorAvatarUrl = profile.avatarUrl,
+                commentText = comment.text,
+                publicationDate = mapTimestampToDate(comment.date * 1000)
+            )
+
+            result.add(post)
         }
 
         return result

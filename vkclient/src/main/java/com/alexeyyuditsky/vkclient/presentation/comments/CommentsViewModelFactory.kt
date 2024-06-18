@@ -1,15 +1,17 @@
 package com.alexeyyuditsky.vkclient.presentation.comments
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.alexeyyuditsky.vkclient.domain.FeedPost
 
 class CommentsViewModelFactory(
+    private val application: Application,
     private val feedPost: FeedPost
 ) : ViewModelProvider.Factory {
 
-    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return CommentsViewModel(feedPost) as T
+        @Suppress("UNCHECKED_CAST")
+        return CommentsViewModel(application, feedPost) as T
     }
 }

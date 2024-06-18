@@ -1,5 +1,6 @@
 package com.alexeyyuditsky.vkclient.data.network
 
+import com.alexeyyuditsky.vkclient.data.model.CommentsResponseDto
 import com.alexeyyuditsky.vkclient.data.model.LikesCountResponseDto
 import com.alexeyyuditsky.vkclient.data.model.NewsFeedResponseDto
 import retrofit2.http.GET
@@ -38,6 +39,13 @@ interface ApiService {
         @Query("owner_id") ownerId: Long,
         @Query("item_id") postId: Long
     ): LikesCountResponseDto
+
+    @GET("wall.getComments?extended=1&fields=photo_100&v=$VERSION")
+    suspend fun getComments(
+        @Query("access_token") token: String,
+        @Query("owner_id") ownerId: Long,
+        @Query("post_id") postId: Long
+    ): CommentsResponseDto
 
     private companion object {
         const val VERSION = 5.199
