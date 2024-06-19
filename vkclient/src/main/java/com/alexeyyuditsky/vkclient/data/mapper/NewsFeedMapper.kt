@@ -57,12 +57,14 @@ class NewsFeedMapper {
             val profile = profiles.firstOrNull { profile -> profile.id == comment.authorId }
                 ?: return@forEach
 
+            if (comment.text.isBlank()) return@forEach
+
             val post = PostComment(
                 id = comment.id,
                 authorName = "${profile.firstName} ${profile.lastName}",
                 authorAvatarUrl = profile.avatarUrl,
                 commentText = comment.text,
-                publicationDate = mapTimestampToDate(comment.date * 1000)
+                publicationDate = mapTimestampToDate(comment.date)
             )
 
             result.add(post)
@@ -72,7 +74,7 @@ class NewsFeedMapper {
     }
 
     private fun mapTimestampToDate(timestamp: Long): String {
-        val date = Date(timestamp)
+        val date = Date(timestamp  * 1000)
         return SimpleDateFormat("d MMMM yyyy, hh:mm", Locale.getDefault()).format(date)
     }
 
