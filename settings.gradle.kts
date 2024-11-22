@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "compose-new"
+rootProject.name = "composeold"
 include(":instagram")
 include(":vkclient")
 include(":composeTest")
